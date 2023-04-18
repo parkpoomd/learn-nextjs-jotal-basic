@@ -1,11 +1,17 @@
 "use client";
 
-import { useState, type FC } from "react";
+import {
+  informationBarAtom,
+  searchAtom,
+  sortAtom,
+} from "@/atoms/productsAtoms";
+import { useAtom, useAtomValue } from "jotai";
 
-interface SearchBarProps {}
-
-const SearchBar: FC<SearchBarProps> = ({}) => {
-  const [sort, setSort] = useState<string>("asc");
+const SearchBar = () => {
+  const [searchTerm, setSearchTerm] = useAtom(searchAtom);
+  const { totalProductsNumber, filteredProductsNumber } =
+    useAtomValue(informationBarAtom);
+  const [sort, setSort] = useAtom(sortAtom);
 
   const sortHandler = () => {
     setSort((prev) => (prev === "asc" ? "desc" : "asc"));
@@ -15,6 +21,8 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
     <>
       <div className="overflow-hidden rounded-md border border-neutral-200 outline-neutral-900 focus-within:outline">
         <input
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
           type="text"
           className="w-full bg-transparent px-4 py-4 outline-none"
           placeholder="Search products..."
@@ -25,11 +33,11 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1 text-xs">
             <div className="font-medium">Total Products:</div>
-            <div>100</div>
+            <div>{totalProductsNumber}</div>
           </div>
           <div className="flex items-center gap-1 text-xs">
             <div className="font-medium">Products Found:</div>
-            <div>100</div>
+            <div>{filteredProductsNumber}</div>
           </div>
         </div>
         {/* Sort By Price Button */}
