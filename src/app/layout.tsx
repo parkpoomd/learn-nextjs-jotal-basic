@@ -1,3 +1,4 @@
+import JotaiProvider from "@/providers/jotai-provider";
 import "./globals.css";
 
 export const metadata = {
@@ -19,7 +20,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={inter.className}>
-      <body>{children}</body>
+      <body>
+        <JotaiProvider>{children}</JotaiProvider>
+      </body>
     </html>
   );
 }
